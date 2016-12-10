@@ -1,6 +1,6 @@
-function [ answers, concepts, validationAnswers, validationConcepts ] = getSyntheticData( )
-%getSyntheticData return a set of synthetic student answers
-%   Generated according to the IRT model
+function [ answers, concepts, validationAnswers, validationConcepts ] = getKddData( )
+%getKddData return a set of student answers from the KDD Cup data
+% This is fake code! Replace it with real KDD cup data
   numStudents = 1000;
   validationRatio = .1;
   validationSize = numStudents * validationRatio;

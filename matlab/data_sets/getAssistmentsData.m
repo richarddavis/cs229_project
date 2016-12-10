@@ -1,6 +1,7 @@
-function [ answers, concepts, validationAnswers, validationConcepts ] = getSyntheticData( )
-%getSyntheticData return a set of synthetic student answers
-%   Generated according to the IRT model
+function [ answers, concepts, validationAnswers, validationConcepts ] = getAssistmentsData( )
+%getAssistments return a set of student answers from the Assistments data
+%set
+%   This is fake! replace it with real Assistments data
   numStudents = 1000;
   validationRatio = .1;
   validationSize = numStudents * validationRatio;
