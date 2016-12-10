@@ -2,4 +2,5 @@
 *ipynb_checkpoints*
 kddcup/kddcup_challenge
 *.mat
+*.m~
 *.swp
