@@ -1,7 +1,5 @@
-function f = naiveModel( answers, concepts )
-%NAIVE Train a naive model on training sets of answers and concepts
-%   Assume every concept just has a constant p(correct) - that
-%   every answer is Bernoulli(pConcept)
+function f = clusteredBktModel( answers, concepts )
+%NAIVE Train a Kalman Filter model on training sets of answers and concepts
 %   returns a function that takes a trajectory of answers and a trajectory
 %   of concepts (both 1 dimensional, same length)
 %   and returns a list of the same length, which is the predicted
@@ -21,13 +19,9 @@ function f = naiveModel( answers, concepts )
     end
     predictions = ones(1,l) ./ x;
   end
-
-  %return a function that always returns 1 - make this real!
-  %f = @(a, c) 1;
   
   %return the predictor function
   f = @predictor;
 
 
 end
-
