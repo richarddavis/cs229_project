@@ -32,28 +32,7 @@ training_fns = {@train_naive, @train_bkt, @train_kalman};
 model_names = ['Naive', 'BKT', 'Kalman'];
 num_models = length(training_fns);
 
-function avg_error = testModel(f, a, c)
-  S, M = size(a);
-  if ~isequal(size(a), size(c))
-      error('Must provide concept labels array of same shape as answers array');
-  end
-  
-  numPredictions = 0;
-  totalSquaredError = 0.0;
-  
-  for i = 1:S
-    for j = 1:M-1
-      if a(i,j) == NaN
-        break;
-      end
-      prediction = f(a(i, 1:j), c(i, 1:j+1));
-      totalSquaredError = totalSquaredError + (a(i,j+1) - prediction)**2;
-      numPredictions = numPredictions + 1;
-    end
-  end
 
-  avg_error = totalSquaredError / numPredictions;
-end
 
 for model_num = 1:num_models
   for data_set_num = 1:num_data_sets
