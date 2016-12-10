@@ -3,6 +3,7 @@
 
 % Load the cleaned data that we prepared in python
 data = load('final_dict.mat');
+cluster_data = load('clustered_dict.mat');
 
 % Temp: Get random concept from the data
 fields = fieldnames(data);
