@@ -31,9 +31,10 @@ end
 %return a function that takes an answer array and concept array 
 %such that the concept array is one longer than the answer array,
 %and returns a predicted probability that the next answer is a 1
-training_fns = {@naiveBernoulliModel, @alwaysOneModel, ...
-  @alwaysHalfModel, @alwaysZeroModel};
-model_names = {'Naive Bernoulli', 'Always 1', 'Always 1/2', 'Always 0'};
+training_fns = {@naiveBernoulliModel, @logisticRegressionModel, ...
+  @alwaysOneModel, @alwaysHalfModel, @alwaysZeroModel};
+model_names = {'Naive Bernoulli', 'Logistic Regression', ...
+  'Always 1', 'Always 1/2', 'Always 0'};
 num_models = length(training_fns);
 
 
