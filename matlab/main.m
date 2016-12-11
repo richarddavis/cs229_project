@@ -1,9 +1,6 @@
 addpath('./data_sets/');
 addpath('./models/');
 
-data_set_names = {'syntheticIRT', 'kdd_cup', 'assistments'};
-num_data_sets = length(data_set_names);
-
 %getXData() function returns [X,C,XV,CV] arrays of dimensions
 %# students x max # of questions
 %ONLY for training data!
@@ -12,20 +9,23 @@ num_data_sets = length(data_set_names);
 %there should be separate getXTestData() functions for each data set,
 %such that the training/test sets are always the same
 
-[syntheticAnswers, syntheticConcepts, syntheticAnswersValidation, ...
-    syntheticConceptsValidation] = getSyntheticIrtData();
-[kddAnswers, kddConcepts, kddAnswersValidation, ...
-    kddConceptsValidation] = getKddData();
-[assistmentsAnswers, assistmentsConcepts, assistmentsAnswersValidation, ...
-    assistemntsConceptsValidation] = getAssistmentsData();
+data_set_names = {'syntheticIRT', 'kdd_cup', 'assistments'};
+data_set_fns = {@getSyntheticIrtData, @getKddData, @getAssistmentsData};
+num_data_sets = length(data_set_names);
 
-answer_sets = {syntheticAnswers, kddAnswers, assistmentsAnswers};
-concept_sets = {syntheticConcepts, kddConcepts, assistmentsConcepts};
+answer_sets = {};
+concept_sets = {};
+validation_answer_sets = {};
+validation_concept_sets = {};
 
-validation_answer_sets = {syntheticAnswersValidation, ...
-  kddAnswersValidation, assistmentsAnswersValidation};
-validation_concept_sets = {syntheticConceptsValidation, ...
-  kddConceptsValidation, assistemntsConceptsValidation};
+for i = 1:num_data_sets
+  data_fn = data_set_fns{i};
+  [answers, concepts, validation_answers, validation_concepts] = data_fn();
+  answer_sets{end + 1} = answers;
+  concept_sets{end + 1} = concepts;
+  validation_answer_sets{end + 1} = validation_answers;
+  validation_concept_sets{end + 1} = validation_concepts;
+end
 
 %Functions to train a model take training arrays of answers and concepts, 
 %return a function that takes an answer array and concept array 
@@ -34,7 +34,6 @@ validation_concept_sets = {syntheticConceptsValidation, ...
 training_fns = {@naiveBernoulliModel, @bktModel, @clusteredBktModel};
 model_names = {'Naive Bernoulli', 'BKT', 'Clustered BKT'};
 num_models = length(training_fns);
-
 
 
 for model_num = 1:num_models
