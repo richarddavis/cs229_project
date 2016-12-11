@@ -14,7 +14,6 @@ function [ answers, concepts, validationAnswers, validationConcepts ] = ...
   numConcepts = 2;
   meanQuestionsPerConcept = 20;
   numQuestions = meanQuestionsPerConcept * numConcepts;
-  pT = 0.1; %chance of learning a concept at each question of that concept
   
   %set concept difficulties randomly (iid standard normal)
   conceptDiffs = normrnd(0,1,numConcepts,1);
@@ -32,8 +31,12 @@ function [ answers, concepts, validationAnswers, validationConcepts ] = ...
   X = zeros(numStudents, numQuestions);
   
   for i = 1:numStudents
+    smartness = normrnd(0,1);
     %knowledge score per-concept, initialized iid standard normal for prior
-    conceptKnow = normrnd(-2,1,numConcepts,1);
+    conceptKnow = normrnd(smartness - 4,1,numConcepts,1);
+    %chance of learning a concept at each question of that concept
+    pT = max(0.05, 0.1 + smartness/10); 
+    
     for j = 1:numQuestions
       curConcept = C(j);
       knowledge = conceptKnow(curConcept);
