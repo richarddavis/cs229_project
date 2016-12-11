@@ -9,8 +9,8 @@ addpath('./models/');
 %there should be separate getXTestData() functions for each data set,
 %such that the training/test sets are always the same
 
-data_set_names = {'syntheticIRT', 'kdd_cup', 'assistments'};
-data_set_fns = {@getSyntheticIrtData, @getKddData, @getAssistmentsData};
+data_set_names = {'Synthetic IRT', 'Random'};
+data_set_fns = {@getSyntheticIrtData, @getRandomData};
 num_data_sets = length(data_set_names);
 
 answer_sets = {};
@@ -31,8 +31,9 @@ end
 %return a function that takes an answer array and concept array 
 %such that the concept array is one longer than the answer array,
 %and returns a predicted probability that the next answer is a 1
-training_fns = {@naiveBernoulliModel, @bktModel, @clusteredBktModel};
-model_names = {'Naive Bernoulli', 'BKT', 'Clustered BKT'};
+training_fns = {@naiveBernoulliModel, @alwaysOneModel, ...
+  @alwaysHalfModel, @alwaysZeroModel};
+model_names = {'Naive Bernoulli', 'Always 1', 'Always 1/2', 'Always 0'};
 num_models = length(training_fns);
 
 
