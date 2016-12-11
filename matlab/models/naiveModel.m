@@ -30,9 +30,6 @@ function f = naiveModel( answers, concepts )
     end
   end
 
-  %return a function that always returns 1 - make this real!
-  %f = @(a, c) 1;
-  
   %return the predictor function
   f = @predictor;
 

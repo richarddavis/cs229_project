@@ -31,8 +31,8 @@ validation_concept_sets = {syntheticConceptsValidation, ...
 %return a function that takes an answer array and concept array 
 %such that the concept array is one longer than the answer array,
 %and returns a predicted probability that the next answer is a 1
-training_fns = {@naiveModel, @bktModel, @kalmanModel};
-model_names = {'Naive', 'BKT', 'Kalman'};
+training_fns = {@naiveModel, @bktModel, @clusteredBktModel};
+model_names = {'Naive', 'BKT', 'Clustered BKT'};
 num_models = length(training_fns);
 
 

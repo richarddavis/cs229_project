@@ -7,7 +7,8 @@ function f = clusteredBktModel( answers, concepts )
 %   previous responses up to that position
 
 
-  x = 3;
+
+  x = 7;
   
   %make the predictor function that takes a test/validation vector each
   %of answers and concepts, and returns a vector of the same length
@@ -17,9 +18,17 @@ function f = clusteredBktModel( answers, concepts )
     if length(concepts) ~= l
       error('Answer and concept lengths must match');
     end
-    predictions = ones(1,l) ./ x;
+    
+    predictions = zeros(1,l);
+    for i = 1:l
+      if isnan(answers(i)) || isnan(concepts(i))
+        predictions(i) = NaN;
+      else
+        predictions(i) = 1.0 / x;
+      end
+    end
   end
-  
+
   %return the predictor function
   f = @predictor;
 

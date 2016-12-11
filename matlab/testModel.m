@@ -13,16 +13,19 @@ function avg_error = testModel(f, a, c)
   numPredictions = 0;
   totalSquaredError = 0.0;
   
+  %TODO: fix this so it works with vector-wise predictor functions 
+  
   for i = 1:S
-    for j = 1:M-1
-      if isnan(a(i,j))
+    predictions = f(a(i, :), c(i, :));
+    for j = 1:M
+      if isnan(a(i,j)) || isnan(predictions(j))
         break;
       end
-      prediction = f(a(i, 1:j), c(i, 1:j+1));
-      if ~(prediction >= 0 & prediction <= 1)
+      prediction = predictions(j);
+      if ~(prediction >= 0 && prediction <= 1)
         error('Prediction (chance of correct) must be between 0 and 1');
       end
-      totalSquaredError = totalSquaredError + (a(i,j+1) - prediction)^2;
+      totalSquaredError = totalSquaredError + (a(i,j) - prediction)^2;
       numPredictions = numPredictions + 1;
     end
   end
