@@ -1,7 +1,7 @@
 addpath('./data_sets/');
 addpath('./models/');
 
-data_set_names = {'synthetic', 'kdd_cup', 'assistments'};
+data_set_names = {'syntheticIRT', 'kdd_cup', 'assistments'};
 num_data_sets = length(data_set_names);
 
 %getXData() function returns [X,C,XV,CV] arrays of dimensions
@@ -13,7 +13,7 @@ num_data_sets = length(data_set_names);
 %such that the training/test sets are always the same
 
 [syntheticAnswers, syntheticConcepts, syntheticAnswersValidation, ...
-    syntheticConceptsValidation] = getSyntheticData();
+    syntheticConceptsValidation] = getSyntheticIrtData();
 [kddAnswers, kddConcepts, kddAnswersValidation, ...
     kddConceptsValidation] = getKddData();
 [assistmentsAnswers, assistmentsConcepts, assistmentsAnswersValidation, ...

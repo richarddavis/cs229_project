@@ -1,5 +1,5 @@
 addpath('./data_sets/');
-data_set_names = ['synthetic'];
+data_set_names = ['syntheticIRT'];
 num_data_sets = length(data_set_names);
 
 %getXData() function returns [X,C,XV,CV] arrays of dimensions
@@ -11,7 +11,7 @@ num_data_sets = length(data_set_names);
 %such that the training/test sets are always the same
 
 [syntheticAnswers, syntheticConcepts, syntheticAnswersValidation, ...
-    syntheticConceptsValidation] = getSyntheticData();
+    syntheticConceptsValidation] = getSyntheticIrtData();
   
 %Functions to train a model take training arrays of answers and concepts, 
 %return a function that takes an answer array and concept array 
