@@ -1,5 +1,5 @@
 function [ answers, concepts, validationAnswers, validationConcepts ] = ...
-  getSyntheticData( )
+  getSyntheticIrtData( )
 %getSyntheticData return a set of synthetic student answers
 %   Generated according to the IRT model
 
