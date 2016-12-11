@@ -7,9 +7,43 @@ function f = bktModel( answers, concepts )
 %   probabilities of a correct response at every position, given the 
 %   previous responses up to that position
 
-
-
-  x = 2;
+  if ~isequal(size(answers), size(concepts))
+      error('Must provide concept labels array of same shape as answers array');
+  end
+  
+  numStudents = length(answers);
+  
+  %this structure assumes the concepts are sequential 1...numConcepts
+  %this must change if that assumption isn't valid for non-synthetic data!
+  numConcepts = length(unique(concepts));
+  
+  
+  % First guess at transition and emission probabilties
+  trans_guess = [0.8,0.2; 
+          0,1];
+  emit_guess = [0.6, 0.4; 
+          0.4, 0.6];
+  
+  trans_probs = {};
+  emit_probs = {};
+  prior_probs = {};
+  for i = 1:numConcepts
+    %Find prior probability of output at first index
+    firstAnswers = answers(:,1);
+    prior_probs{end + 1} = mean(firstAnswers(concepts(:,1) == i));
+    
+    curOutputs = {};
+    for j = 1:numStudents
+      fullRow = answers(j);
+      curOutputs{j} = fullRow(concepts(j) == i) + 1;
+    end
+    
+    % Learn transition and emission probs per concept
+    [est_trans,est_emit] = hmmtrain(curOutputs,trans_guess,emit_guess);
+    trans_probs{end + 1} = est_trans;
+    emit_probs{end + 1} = est_emit;
+  end
+  
   
   %make the predictor function that takes a test/validation vector each
   %of answers and concepts, and returns a vector of the same length
@@ -21,14 +55,23 @@ function f = bktModel( answers, concepts )
     end
     
     predictions = zeros(1,l);
-    for i = 1:l
-      if isnan(answers(i)) || isnan(concepts(i))
-        predictions(i) = NaN;
-      else
-        predictions(i) = 1.0 / x;
+    
+    for i = 1:numConcepts
+      conceptIndices = find(concepts == i);
+      firstIndex = conceptIndices(1);
+      predictions(firstIndex) = prior_probs{i};
+      conceptSequence = answers(conceptIndices);
+      %HMM state posterior probabilities by-index
+      %Hard coded to assume 2 states, 2 possible emissions!
+      state_ps = hmmdecode(conceptSequence + 1, trans_probs{i}, emit_probs{i});
+      for j = 2:length(conceptSequence)
+        cur_state_ps = state_ps(:,j-1);
+        emit_posterior = emit_probs{i}' * cur_state_ps;
+        predictions(conceptIndices(j)) = emit_posterior(2);
       end
     end
   end
+
 
   %return the predictor function
   f = @predictor;
