@@ -33,21 +33,21 @@ function f = bktModel( answers, concepts )
     % firstAnswers = answers(:,1);
     % mean(firstAnswers(concepts(:,1) == c))
     
-    % This is an ugly, slow fix but it works.
+    % This is an uglier, slow fix but it works.
     initial_answers = 0;
     initial_answer_count = 0;
     for row = 1:size(concepts, 1)
-        for col = 1:size(concepts, 2)
-            if concepts(row, col) == c
-                initial_answers = initial_answers + answers(row, col);
-                initial_answer_count = initial_answer_count + 1;
-                break
-            end
+        crow = concepts(row,:);
+        arow = answers(row,:);
+        first_ind = find(crow==c,1);
+        if isempty(first_ind)
+            continue
         end
-    end
+        initial_answers = initial_answers + arow(:,find(crow==c,1));
+        initial_answer_count = initial_answer_count + 1;
+    end    
 
     prior_probs{end + 1} = initial_answers/initial_answer_count;
-    
     
     curOutputs = {};
     for s = 1:numStudents

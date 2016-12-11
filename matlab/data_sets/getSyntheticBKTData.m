@@ -1,10 +1,10 @@
 function [ answers, concepts, validationAnswers, validationConcepts ] = ...
     getSyntheticBKTData()
 
-    numStudents = 100;
+    numStudents = 1000;
     validationRatio = .1;
     validationSize = numStudents * validationRatio;
-    numConcepts = 2;
+    numConcepts = 10;
     numQuestions = 50;
     
     X = zeros(numStudents, numConcepts * numQuestions);
@@ -12,10 +12,10 @@ function [ answers, concepts, validationAnswers, validationConcepts ] = ...
     
     for c = 1:numConcepts
         
-        pL0 = 0.1;
-        pLearn = 0.1;
-        pGuess = 0.25;
-        pSlip = 0.05;
+        pL0 = rand;
+        pLearn = rand;
+        pGuess = rand;
+        pSlip = rand;
 
         trans = [1-pLearn,pLearn; 
                 0,1];
