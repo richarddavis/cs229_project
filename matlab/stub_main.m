@@ -11,7 +11,7 @@ num_data_sets = length(data_set_names);
 %such that the training/test sets are always the same
 
 [syntheticAnswers, syntheticConcepts, syntheticAnswersValidation, ...
-    syntheticConceptsValidation] = getSyntheticIrtData();
+    syntheticConceptsValidation] = getSyntheticBKTData();
   
 %Functions to train a model take training arrays of answers and concepts, 
 %return a function that takes an answer array and concept array 

@@ -6,17 +6,16 @@ function f = bktModel( answers, concepts )
 %   and returns a list of the same length, which is the predicted
 %   probabilities of a correct response at every position, given the 
 %   previous responses up to that position
-
+    
   if ~isequal(size(answers), size(concepts))
       error('Must provide concept labels array of same shape as answers array');
   end
   
-  numStudents = length(answers);
+  numStudents = size(answers,1);
   
   %this structure assumes the concepts are sequential 1...numConcepts
   %this must change if that assumption isn't valid for non-synthetic data!
   numConcepts = length(unique(concepts));
-  
   
   % First guess at transition and emission probabilties
   trans_guess = [0.8,0.2; 
@@ -27,15 +26,33 @@ function f = bktModel( answers, concepts )
   trans_probs = {};
   emit_probs = {};
   prior_probs = {};
-  for i = 1:numConcepts
-    %Find prior probability of output at first index
-    firstAnswers = answers(:,1);
-    prior_probs{end + 1} = mean(firstAnswers(concepts(:,1) == i));
+  for c = 1:numConcepts
+    
+    % This is broken
+    % Find prior probability of output at first index
+    % firstAnswers = answers(:,1);
+    % mean(firstAnswers(concepts(:,1) == c))
+    
+    % This is an ugly, slow fix but it works.
+    initial_answers = 0;
+    initial_answer_count = 0;
+    for row = 1:size(concepts, 1)
+        for col = 1:size(concepts, 2)
+            if concepts(row, col) == c
+                initial_answers = initial_answers + answers(row, col);
+                initial_answer_count = initial_answer_count + 1;
+                break
+            end
+        end
+    end
+
+    prior_probs{end + 1} = initial_answers/initial_answer_count;
+    
     
     curOutputs = {};
-    for j = 1:numStudents
-      fullRow = answers(j);
-      curOutputs{j} = fullRow(concepts(j) == i) + 1;
+    for s = 1:numStudents
+      fullRow = answers(s,:);
+      curOutputs{s} = fullRow(concepts(s,:) == c) + 1;
     end
     
     % Learn transition and emission probs per concept
@@ -44,13 +61,12 @@ function f = bktModel( answers, concepts )
     emit_probs{end + 1} = est_emit;
   end
   
-  
   %make the predictor function that takes a test/validation vector each
   %of answers and concepts, and returns a vector of the same length
   %of predicted response probabilities
   function predictions = predictor(answers, concepts)
-    l = length(answers);
-    if length(concepts) ~= l
+    l = size(answers,1);
+    if size(concepts,1) ~= l
       error('Answer and concept lengths must match');
     end
     
@@ -72,9 +88,7 @@ function f = bktModel( answers, concepts )
     end
   end
 
-
   %return the predictor function
   f = @predictor;
-
 
 end

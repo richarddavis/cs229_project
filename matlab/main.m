@@ -9,8 +9,8 @@ addpath('./models/');
 %there should be separate getXTestData() functions for each data set,
 %such that the training/test sets are always the same
 
-data_set_names = {'Synthetic IRT', 'Random'};
-data_set_fns = {@getSyntheticIrtData, @getRandomData};
+data_set_names = {'Synthetic BKT', 'Synthetic IRT', 'Random'};
+data_set_fns = {@getSyntheticBKTData, @getSyntheticIrtData, @getRandomData};
 num_data_sets = length(data_set_names);
 
 answer_sets = {};
