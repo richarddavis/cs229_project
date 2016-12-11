@@ -9,7 +9,7 @@ function f = bktModel( answers, concepts )
 
 
 
-  x = 5;
+  x = 2;
   
   %make the predictor function that takes a test/validation vector each
   %of answers and concepts, and returns a vector of the same length

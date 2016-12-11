@@ -47,7 +47,7 @@ for model_num = 1:num_models
     validation_answers = validation_answer_sets{data_set_num};
     validation_concepts = validation_concept_sets{data_set_num};
     error_rate = testModel(prediction_fn, validation_answers, validation_concepts);
-    fprintf('Error rate is %f\n\n', error_rate);
+    fprintf('Error rate is %f (sqrt %f) \n\n', error_rate, sqrt(error_rate));
   end
 end
 

@@ -8,7 +8,7 @@ function f = clusteredBktModel( answers, concepts )
 
 
 
-  x = 7;
+  x = 1;
   
   %make the predictor function that takes a test/validation vector each
   %of answers and concepts, and returns a vector of the same length

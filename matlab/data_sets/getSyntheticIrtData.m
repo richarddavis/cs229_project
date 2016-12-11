@@ -8,10 +8,10 @@ function [ answers, concepts, validationAnswers, validationConcepts ] = ...
     p = .25 + .75/(1.0 + exp(diff - skill));
   end
 
-  numStudents = 20;
+  numStudents = 500;
   validationRatio = .1;
   validationSize = numStudents * validationRatio;
-  numConcepts = 2;
+  numConcepts = 10;
   meanQuestionsPerConcept = 20;
   numQuestions = meanQuestionsPerConcept * numConcepts;
   
