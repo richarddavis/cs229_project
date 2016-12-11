@@ -8,8 +8,14 @@ function f = naiveBernoulliModel( answers, concepts )
 %   probabilities of a correct response at every position, given the 
 %   previous responses up to that position
 
+  %this structure assumes the concepts are sequential 1...numConcepts
+  %this must change if that assumption isn't valid for non-synthetic data!
+  numConcepts = length(unique(concepts));
+  Ps = zeros(numConcepts, 1);
 
-  x = 3;
+  for i = 1:numConcepts
+    Ps(i) = mean(answers(concepts == i));
+  end
   
   %make the predictor function that takes a test/validation vector each
   %of answers and concepts, and returns a vector of the same length
@@ -25,7 +31,7 @@ function f = naiveBernoulliModel( answers, concepts )
       if isnan(answers(i)) || isnan(concepts(i))
         predictions(i) = NaN;
       else
-        predictions(i) = 1.0 / x;
+        predictions(i) = Ps(concepts(i));
       end
     end
   end
