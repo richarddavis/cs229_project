@@ -9,8 +9,9 @@ cluster_data = load('clustered_dict.mat');
 fields = fieldnames(data);
 rand_concept = fields{randsample(numel(fields), 1)};
 
-% Split the data in each concept into test and train sets
-[train, test] = get_concept_data(rand_concept, 0.2, data);
+% Split the data in each concept into test and train sets. Return
+% train and test data for each cluster.
+[train, test] = get_concept_data(rand_concept, 0.2, data, cluster_data);
 
 % Learn HMM on train data
 
