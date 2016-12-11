@@ -1,4 +1,4 @@
-function f = naiveModel( answers, concepts )
+function f = naiveBernoulliModel( answers, concepts )
 %NAIVE Train a naive model on training sets of answers and concepts
 %   Assume every concept just has a constant p(correct) - that
 %   every answer is Bernoulli(pConcept)

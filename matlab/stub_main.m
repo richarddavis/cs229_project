@@ -17,8 +17,8 @@ num_data_sets = length(data_set_names);
 %return a function that takes an answer array and concept array 
 %such that the concept array is one longer than the answer array,
 %and returns a predicted probability that the next answer is a 1
-training_fns = {@naiveModel};
-model_names = ['Naive'];
+training_fns = {@naiveBernoulliModel};
+model_names = ['NaiveBernoulli'];
 num_models = length(training_fns);
 
 fn1 = training_fns{1};
