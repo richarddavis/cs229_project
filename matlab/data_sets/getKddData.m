@@ -1,24 +1,28 @@
-function [ answers, concepts, validationAnswers, validationConcepts ] = getKddData( )
-%getKddData return a set of student answers from the KDD Cup data
-% This is fake code! Replace it with real KDD cup data
-  numStudents = 1000;
-  validationRatio = .1;
-  validationSize = numStudents * validationRatio;
-  numConcepts = 10;
-  meanSeqLength = 20;
-  
-  %X and C are just random junk - make them actual IRT data!
-  X = randi(2,numStudents,numConcepts*meanSeqLength) - 1;
-  C = randi(numConcepts, numStudents, numConcepts*meanSeqLength);
-  
-  validationIndices = randperm(numStudents, validationSize);
-  
-  validationAnswers = X(validationIndices,:);
-  validationConcepts = C(validationIndices,:);
-  
-  nonValidationIndices = setdiff(1:numStudents, validationIndices);
-  answers = X(nonValidationIndices, :);
-  concepts = C(nonValidationIndices, :);
+function [ answers, concepts, validationAnswers, validationConcepts ] = ...
+    getKddData()
+
+    load('KDD.mat');
+    
+    numStudents = size(KDD_X, 1);
+    numConcepts = length(unique(KDD_C)) - 1; % minus one needed b/c 0 is not a concept but it is counted
+
+    validationRatio = .1;
+    validationSize = round(numStudents * validationRatio);
+    
+    % Convert zeros to NaN in both matrices
+    KDD_X(find(KDD_X == 0)) = NaN;
+    KDD_C(find(KDD_C == 0)) = NaN;     
+    
+    KDD_X = KDD_X - 1;    
+    
+    validationIndices = randperm(numStudents, validationSize);
+
+    validationAnswers = KDD_X(validationIndices,:);
+    validationConcepts = KDD_C(validationIndices,:);
+
+    nonValidationIndices = setdiff(1:numStudents, validationIndices);
+    answers = KDD_X(nonValidationIndices, :);
+    concepts = KDD_C(nonValidationIndices, :);
 
 end
 
