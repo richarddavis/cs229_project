@@ -33,7 +33,7 @@ function f = bktModel( answers, concepts )
     % firstAnswers = answers(:,1);
     % mean(firstAnswers(concepts(:,1) == c))
     
-    % This is an uglier, slow fix but it works.
+    % This is an uglier, slow fix but it works. Try to speed this up.
     initial_answers = 0;
     initial_answer_count = 0;
     for row = 1:size(concepts, 1)

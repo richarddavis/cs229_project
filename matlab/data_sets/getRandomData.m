@@ -1,7 +1,7 @@
 function [ answers, concepts, validationAnswers, validationConcepts ] = ...
   getRandomData( )
 %getRandomData return random student answers!
-  numStudents = 1000;
+  numStudents = 500;
   validationRatio = .1;
   validationSize = numStudents * validationRatio;
   numConcepts = 10;
@@ -19,6 +19,7 @@ function [ answers, concepts, validationAnswers, validationConcepts ] = ...
   nonValidationIndices = setdiff(1:numStudents, validationIndices);
   answers = X(nonValidationIndices, :);
   concepts = C(nonValidationIndices, :);
-
+  disp(size(answers))
+  disp(size(concepts))
 end
 
