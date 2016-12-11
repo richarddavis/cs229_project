@@ -22,7 +22,7 @@ function f = naiveModel( answers, concepts )
     
     predictions = zeros(1,l);
     for i = 1:l
-      if isnan(answers(i)) | isnan(concepts(i))
+      if isnan(answers(i)) || isnan(concepts(i))
         predictions(i) = NaN;
       else
         predictions(i) = 1.0 / x;
