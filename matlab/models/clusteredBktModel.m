@@ -29,18 +29,16 @@ function f = clusteredBktModel( answers, concepts )
   %Display=funal means do print the intermediate runs
   %opts = statset('Display','final');
   opts = statset('Display','off');
-  [idx,C] = kmeans(conceptSeen,2,'Replicates',10,'Options',opts);
 
-  answers1 = answers(idx == 1,:);
-  concepts1 = concepts(idx == 1,:);
-  answers2 = answers(idx == 2,:);
-  concepts2 = concepts(idx == 2,:);
+  numClusters = 2;
+  [idx,C] = kmeans(conceptSeen,numClusters,'Replicates',10,'Options',opts);
 
-  %train a BKT predictor function for each cluster
-  predictor1 = bktModel(answers1, concepts1);
-  predictor2 = bktModel(answers2, concepts2);
-
-  predictors = {predictor1, predictor2};
+  predictors = {};
+  for i = 1:numClusters
+    curAnswers = answers(idx == i,:);
+    curConcepts = concepts(idx == i,:);
+    predictors{end+1} = bktModel(curAnswers, curConcepts);
+  end
 
   %make the predictor function that takes a test/validation vector each
   %of answers and concepts, and returns a vector of the same length
@@ -58,16 +56,6 @@ function f = clusteredBktModel( answers, concepts )
     [m, i] = min(clusterDists);
     predictorFn = predictors{i};
     predictions = predictorFn(answers, concepts);
-
-
-    %predictions = zeros(1,l);
-    %for i = 1:l
-    %  if isnan(answers(i)) || isnan(concepts(i))
-    %    predictions(i) = NaN;
-    %  else
-    %    predictions(i) = 1.0;
-    %  end
-    %end
   end
 
   %return the predictor function
