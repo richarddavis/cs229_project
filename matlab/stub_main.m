@@ -1,7 +1,7 @@
 addpath('./data_sets/');
 addpath('./models');
 
-data_set_names = {'KDD Cup'};
+data_set_names = {'KDD'};
 data_set_fn = @getKddData;
 num_data_sets = length(data_set_names);
 
@@ -19,8 +19,8 @@ num_data_sets = length(data_set_names);
 %return a function that takes an answer array and concept array 
 %such that the concept array is one longer than the answer array,
 %and returns a predicted probability that the next answer is a 1
-training_fns = {@bktModel};
-model_names = {'BKT'};
+training_fns = {@clusteredBktModel};
+model_names = {'Clustered BKT'};
 num_models = length(training_fns);
 
 fn1 = training_fns{1};

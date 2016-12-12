@@ -32,9 +32,9 @@ end
 %such that the concept array is one longer than the answer array,
 %and returns a predicted probability that the next answer is a 1
 training_fns = {@naiveBernoulliModel, @logisticRegressionModel, @bktModel, ...
-  @alwaysOneModel, @alwaysHalfModel, @alwaysZeroModel};
+  @clusteredBktModel, @alwaysOneModel, @alwaysHalfModel, @alwaysZeroModel};
 model_names = {'Naive Bernoulli', 'Logistic Regression', 'BKT', ...
-  'Always 1', 'Always 1/2', 'Always 0'};
+  'Clustered BKT', 'Always 1', 'Always 1/2', 'Always 0'};
 num_models = length(training_fns);
 
 
