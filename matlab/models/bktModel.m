@@ -52,7 +52,10 @@ function f = bktModel( answers, concepts )
     curOutputs = {};
     for s = 1:numStudents
       fullRow = answers(s,:);
-      curOutputs{s} = fullRow(concepts(s,:) == c) + 1;
+      curSeq = fullRow(concepts(s,:) == c) + 1;
+      if length(curSeq > 0)
+        curOutputs{end + 1} = curSeq;
+      end
     end
     
     % Learn transition and emission probs per concept

@@ -10,7 +10,7 @@ function f = logisticRegressionModel( answers, concepts )
   
   %this structure assumes the concepts are sequential 1...numConcepts
   %this must change if that assumption isn't valid for non-synthetic data!
-  numConcepts = length(unique(concepts));
+  numConcepts = length(unique(concepts(~isnan(concepts))));
   
   %array indexed by concept and how many questions of that concept seen
   %in the sequence before the response (the model assumes that the more
@@ -25,6 +25,9 @@ function f = logisticRegressionModel( answers, concepts )
     numSeenByConcept = zeros(numConcepts);
     for j = 1:maxSeqLength
       curConcept = concepts(i,j);
+      if isnan(curConcept)
+        break;
+      end
       
       totals(curConcept, numSeenByConcept(curConcept) + 1) = ...
         totals(curConcept, numSeenByConcept(curConcept) + 1) + 1;
