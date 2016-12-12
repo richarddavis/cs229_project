@@ -1,25 +1,32 @@
-function [ answers, concepts, validationAnswers, validationConcepts ] = getAssistmentsData( )
-%getAssistments return a set of student answers from the Assistments data
-%set
-%   This is fake! replace it with real Assistments data
-  numStudents = 1000;
-  validationRatio = .1;
-  validationSize = numStudents * validationRatio;
-  numConcepts = 10;
-  meanSeqLength = 20;
-  
-  %X and C are just random junk - make them actual IRT data!
-  X = randi(2,numStudents,numConcepts*meanSeqLength) - 1;
-  C = randi(numConcepts, numStudents, numConcepts*meanSeqLength);
-  
-  validationIndices = randperm(numStudents, validationSize);
-  
-  validationAnswers = X(validationIndices,:);
-  validationConcepts = C(validationIndices,:);
-  
-  nonValidationIndices = setdiff(1:numStudents, validationIndices);
-  answers = X(nonValidationIndices, :);
-  concepts = C(nonValidationIndices, :);
+function [ answers, concepts, validationAnswers, validationConcepts ] = ...
+    getAssistmentsData()
+
+    load('Assistments.mat');
+    
+    %truncate the matrices so they don't take forever to run stuff on
+    Assistments_X = Assistments_X(1:500,1:200);
+    Assistments_C = Assistments_C(1:500,1:200);
+    
+    numStudents = size(Assistments_X, 1);
+    numConcepts = length(unique(Assistments_C)) - 1; % minus one needed b/c 0 is not a concept but it is counted
+
+    validationRatio = .1;
+    validationSize = round(numStudents * validationRatio);
+    
+    % Convert zeros to NaN in both matrices
+    Assistments_X(find(Assistments_X == 0)) = NaN;
+    Assistments_C(find(Assistments_C == 0)) = NaN;     
+    
+    Assistments_X = Assistments_X - 1;    
+    
+    validationIndices = randperm(numStudents, validationSize);
+
+    validationAnswers = Assistments_X(validationIndices,:);
+    validationConcepts = Assistments_C(validationIndices,:);
+
+    nonValidationIndices = setdiff(1:numStudents, validationIndices);
+    answers = Assistments_X(nonValidationIndices, :);
+    concepts = Assistments_C(nonValidationIndices, :);
 
 end
 
