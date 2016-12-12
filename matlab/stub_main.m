@@ -1,5 +1,8 @@
 addpath('./data_sets/');
-data_set_names = ['syntheticIRT'];
+addpath('./models');
+
+data_set_names = {'KDD Cup'};
+data_set_fn = @getKddData;
 num_data_sets = length(data_set_names);
 
 %getXData() function returns [X,C,XV,CV] arrays of dimensions
@@ -10,18 +13,20 @@ num_data_sets = length(data_set_names);
 %there should be separate getXTestData() functions for each data set,
 %such that the training/test sets are always the same
 
-[syntheticAnswers, syntheticConcepts, syntheticAnswersValidation, ...
-    syntheticConceptsValidation] = getSyntheticIrtData();
+[answers, concepts, answersValidation, conceptsValidation] = data_set_fn();
   
 %Functions to train a model take training arrays of answers and concepts, 
 %return a function that takes an answer array and concept array 
 %such that the concept array is one longer than the answer array,
 %and returns a predicted probability that the next answer is a 1
-training_fns = {@naiveBernoulliModel};
-model_names = ['NaiveBernoulli'];
+training_fns = {@bktModel};
+model_names = {'BKT'};
 num_models = length(training_fns);
 
 fn1 = training_fns{1};
 
-fn2 = fn1(syntheticAnswers, syntheticConcepts);
-testModel(fn2, syntheticAnswersValidation, syntheticConceptsValidation)
+fn2 = fn1(answers, concepts);
+
+error_rate = testModel(fn2, answersValidation, conceptsValidation);
+fprintf('Testing %s on %s\n', model_names{1}, data_set_names{1});
+fprintf('Error rate is %f (sqrt %f) \n\n', error_rate, sqrt(error_rate));

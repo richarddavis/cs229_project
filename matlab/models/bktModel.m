@@ -52,7 +52,10 @@ function f = bktModel( answers, concepts )
     curOutputs = {};
     for s = 1:numStudents
       fullRow = answers(s,:);
-      curOutputs{s} = fullRow(concepts(s,:) == c) + 1;
+      curSeq = fullRow(concepts(s,:) == c) + 1;
+      if length(curSeq > 0)
+        curOutputs{end + 1} = curSeq;
+      end
     end
     
     % Learn transition and emission probs per concept
@@ -74,6 +77,10 @@ function f = bktModel( answers, concepts )
     
     for i = 1:numConcepts
       conceptIndices = find(concepts == i);
+      %if no answers of concept i in this sequence, skip to i+1
+      if isempty(conceptIndices)
+        continue
+      end
       firstIndex = conceptIndices(1);
       predictions(firstIndex) = prior_probs{i};
       conceptSequence = answers(conceptIndices);

@@ -3,6 +3,10 @@ function [ answers, concepts, validationAnswers, validationConcepts ] = ...
 
     load('KDD.mat');
     
+    %truncate the matrices so they don't take forever to run stuff on
+    KDD_X = KDD_X(1:500,1:200);
+    KDD_C = KDD_C(1:500,1:200);
+    
     numStudents = size(KDD_X, 1);
     numConcepts = length(unique(KDD_C)) - 1; % minus one needed b/c 0 is not a concept but it is counted
 
