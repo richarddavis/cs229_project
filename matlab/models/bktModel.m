@@ -15,7 +15,7 @@ function f = bktModel( answers, concepts )
   
   %this structure assumes the concepts are sequential 1...numConcepts
   %this must change if that assumption isn't valid for non-synthetic data!
-  numConcepts = length(unique(concepts));
+  numConcepts = length(unique(concepts(~isnan(concepts))));
   
   % First guess at transition and emission probabilties
   trans_guess = [0.8,0.2; 
