@@ -29,7 +29,6 @@ function f = clusteredBktModel( answers, concepts )
   %Display=funal means do print the intermediate runs
   %opts = statset('Display','final');
   opts = statset('Display','off');
-
   numClusters = 2;
   [idx,C] = kmeans(conceptSeen,numClusters,'Replicates',10,'Options',opts);
 
@@ -39,6 +38,7 @@ function f = clusteredBktModel( answers, concepts )
     curConcepts = concepts(idx == i,:);
     predictors{end+1} = bktModel(curAnswers, curConcepts);
   end
+
 
   %make the predictor function that takes a test/validation vector each
   %of answers and concepts, and returns a vector of the same length
