@@ -77,6 +77,10 @@ function f = bktModel( answers, concepts )
     
     for i = 1:numConcepts
       conceptIndices = find(concepts == i);
+      %if no answers of concept i in this sequence, skip to i+1
+      if isempty(conceptIndices)
+        continue
+      end
       firstIndex = conceptIndices(1);
       predictions(firstIndex) = prior_probs{i};
       conceptSequence = answers(conceptIndices);

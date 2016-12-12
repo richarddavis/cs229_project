@@ -1,8 +1,8 @@
 addpath('./data_sets/');
 addpath('./models');
 
-data_set_names = {'Synthetic IRT'};
-data_set_fn = @getSyntheticIrtData;
+data_set_names = {'KDD Cup'};
+data_set_fn = @getKddData;
 num_data_sets = length(data_set_names);
 
 %getXData() function returns [X,C,XV,CV] arrays of dimensions
