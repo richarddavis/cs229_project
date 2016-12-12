@@ -6,8 +6,6 @@ function f = clusteredBktModel( answers, concepts )
 %   probabilities of a correct response at every position, given the 
 %   previous responses up to that position
 
-
-
   x = 1;
   
   %make the predictor function that takes a test/validation vector each

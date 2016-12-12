@@ -11,7 +11,7 @@ function f = bktModel( answers, concepts )
       error('Must provide concept labels array of same shape as answers array');
   end
   
-  numStudents = size(answers,1);
+  numStudents = size(answers, 1);
   
   %this structure assumes the concepts are sequential 1...numConcepts
   %this must change if that assumption isn't valid for non-synthetic data!
