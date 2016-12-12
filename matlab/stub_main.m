@@ -27,6 +27,13 @@ fn1 = training_fns{1};
 
 fn2 = fn1(answers, concepts);
 
+fn3 = @bktModel;
+fn4 = fn3(answers, concepts);
+
 error_rate = testModel(fn2, answersValidation, conceptsValidation);
 fprintf('Testing %s on %s\n', model_names{1}, data_set_names{1});
+fprintf('Error rate is %f (sqrt %f) \n\n', error_rate, sqrt(error_rate));
+
+error_rate = testModel(fn4, answersValidation, conceptsValidation);
+fprintf('Testing alternate model on same data\n');
 fprintf('Error rate is %f (sqrt %f) \n\n', error_rate, sqrt(error_rate));
