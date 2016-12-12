@@ -10,7 +10,7 @@ function f = naiveBernoulliModel( answers, concepts )
 
   %this structure assumes the concepts are sequential 1...numConcepts
   %this must change if that assumption isn't valid for non-synthetic data!
-  numConcepts = length(unique(concepts));
+  numConcepts = length(unique(concepts(~isnan(concepts))));
   Ps = zeros(numConcepts, 1);
 
   for i = 1:numConcepts
