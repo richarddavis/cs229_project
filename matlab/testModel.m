@@ -13,8 +13,6 @@ function avg_error = testModel(f, a, c)
   numPredictions = 0;
   totalSquaredError = 0.0;
   
-  %TODO: fix this so it works with vector-wise predictor functions 
-  
   for i = 1:S
     predictions = f(a(i, :), c(i, :));
     for j = 1:M
