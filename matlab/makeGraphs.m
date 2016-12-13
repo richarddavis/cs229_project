@@ -3,6 +3,7 @@ model_labels = {'Always 1', 'Average\newlineResponse', 'Naive\newlineBernoulli',
   'Clustered\newlineBKT'};
 
 bar(mses);
+colormap('cool');
 title('MSEs of Predicted Probabilities against Student Responses');
 xlabel('Prediction model');
 ylabel('MSE');
@@ -12,6 +13,7 @@ saveas(gcf,'graphs/MSEs', 'epsc');
 close;
 
 bar(error_rates);
+colormap('cool');
 title('Error rates for predicted student responses');
 xlabel('Prediction model');
 ylabel('Error rate');
@@ -21,6 +23,7 @@ saveas(gcf,'graphs/Error_rates', 'epsc');
 close;
 
 bar(ROC_AUCs);
+colormap('cool');
 title('AUROCs of Predictions against Student Resposnes');
 xlabel('Prediction model');
 ylabel('MSE');
