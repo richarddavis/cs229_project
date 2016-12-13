@@ -1,4 +1,4 @@
-model_labels = {'Always 1', 'Naive\newlineBernoulli', ...
+model_labels = {'Always 1', 'Average\newlineResponse', 'Naive\newlineBernoulli', ...
   'Logistic\newlineRegression', 'BKT', ...
   'Clustered\newlineBKT'};
 
@@ -8,7 +8,7 @@ xlabel('Prediction model');
 ylabel('MSE');
 legend(data_set_names);
 set(gca, 'XTickLabel', model_labels);
-saveas(gcf,'graphs/MSEs.png');
+saveas(gcf,'graphs/MSEs', 'epsc');
 close;
 
 bar(error_rates);
@@ -17,7 +17,7 @@ xlabel('Prediction model');
 ylabel('Error rate');
 legend(data_set_names);
 set(gca, 'XTickLabel', model_labels);
-saveas(gcf,'graphs/Error_rates.png');
+saveas(gcf,'graphs/Error_rates', 'epsc');
 close;
 
 bar(ROC_AUCs);
@@ -25,8 +25,9 @@ title('AUROCs of Predictions against Student Resposnes');
 xlabel('Prediction model');
 ylabel('MSE');
 legend(data_set_names);
+legend('Location','southeast');
 set(gca, 'XTickLabel', model_labels);
-saveas(gcf,'graphs/AUROCs.png');
+saveas(gcf,'graphs/AUROCs', 'epsc');
 close;
 
 for data_set_num = 1:num_data_sets
@@ -38,13 +39,13 @@ for data_set_num = 1:num_data_sets
   end
   t = sprintf('ROC curves for models on %s', data_set_names{data_set_num});
   title(t);
-  legend(data_set_names);
+  legend(model_names);
   legend('Location','southeast');
   xlabel('False positive rate');
   ylabel('False negative rate');
   %legend(model_names);
-  f = sprintf('graphs/roc_%s.jpg', data_set_names{data_set_num});
-  saveas(gcf,f);
+  f = sprintf('graphs/roc_%s', data_set_names{data_set_num});
+  saveas(gcf,f, 'epsc');
   hold off;
   close;
 end

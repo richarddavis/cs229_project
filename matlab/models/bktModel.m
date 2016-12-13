@@ -59,7 +59,7 @@ function f = bktModel( answers, concepts )
     end
     
     % Learn transition and emission probs per concept
-    [est_trans,est_emit] = hmmtrain(curOutputs,trans_guess,emit_guess);
+    [est_trans,est_emit] = hmmtrain(curOutputs,trans_guess,emit_guess,'Tolerance',1e-4);
     trans_probs{end + 1} = est_trans;
     emit_probs{end + 1} = est_emit;
   end
