@@ -2,7 +2,7 @@ addpath('./data_sets/');
 addpath('./models');
 
 data_set_names = {'KDD'};
-data_set_fn = @getKddData;
+data_set_fn = @getAssistmentsData;
 num_data_sets = length(data_set_names);
 
 %getXData() function returns [X,C,XV,CV] arrays of dimensions
@@ -19,8 +19,8 @@ num_data_sets = length(data_set_names);
 %return a function that takes an answer array and concept array 
 %such that the concept array is one longer than the answer array,
 %and returns a predicted probability that the next answer is a 1
-training_fns = {@clusteredBktModel};
-model_names = {'Clustered BKT'};
+training_fns = {@avgResponseModel};
+model_names = {'Average Response'};
 num_models = length(training_fns);
 
 fn1 = training_fns{1};

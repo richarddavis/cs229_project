@@ -19,7 +19,7 @@ function avg_error = testModel(f, a, c)
       if isnan(a(i,j)) || isnan(predictions(j))
         break;
       end
-      prediction = predictions(j);
+      prediction = single(predictions(j));
       if ~(prediction >= 0 && prediction <= 1)
         error('Prediction (chance of correct) must be between 0 and 1');
       end
