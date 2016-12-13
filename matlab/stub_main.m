@@ -19,21 +19,24 @@ num_data_sets = length(data_set_names);
 %return a function that takes an answer array and concept array 
 %such that the concept array is one longer than the answer array,
 %and returns a predicted probability that the next answer is a 1
-training_fns = {@clusteredBktModel};
-model_names = {'Clustered BKT'};
+training_fns = {@logisticRegressionModel};
+model_names = {'Logistic Regression'};
 num_models = length(training_fns);
 
 fn1 = training_fns{1};
 
 fn2 = fn1(answers, concepts);
 
-fn3 = @bktModel;
+fn3 = @alwaysZeroModel;
 fn4 = fn3(answers, concepts);
 
-error_rate = testModel(fn2, answersValidation, conceptsValidation);
+[mse, error_rate, X, Y, T, AUC] = testModel(fn2, answersValidation, conceptsValidation);
 fprintf('Testing %s on %s\n', model_names{1}, data_set_names{1});
-fprintf('Error rate is %f (sqrt %f) \n\n', error_rate, sqrt(error_rate));
+plot(X,Y);
+fprintf('MSE is %f (sqrt %f), error rate %f , AUC %f\n\n', ...
+  mse, sqrt(mse), error_rate, AUC);
 
-error_rate = testModel(fn4, answersValidation, conceptsValidation);
+[mse, error_rate, X, Y, T, AUC] = testModel(fn4, answersValidation, conceptsValidation);
 fprintf('Testing alternate model on same data\n');
-fprintf('Error rate is %f (sqrt %f) \n\n', error_rate, sqrt(error_rate));
+fprintf('MSE is %f (sqrt %f), error rate %f , AUC %f\n\n', ...
+  mse, sqrt(mse), error_rate, AUC);
