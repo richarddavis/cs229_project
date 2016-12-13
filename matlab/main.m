@@ -31,12 +31,20 @@ end
 %return a function that takes an answer array and concept array 
 %such that the concept array is one longer than the answer array,
 %and returns a predicted probability that the next answer is a 1
-training_fns = {@naiveBernoulliModel, @logisticRegressionModel, @bktModel, ...
-  @clusteredBktModel, @alwaysOneModel, @alwaysHalfModel, @alwaysZeroModel};
-model_names = {'Naive Bernoulli', 'Logistic Regression', 'BKT', ...
-  'Clustered BKT', 'Always 1', 'Always 1/2', 'Always 0'};
+training_fns = {@alwaysOneModel, @naiveBernoulliModel, ...
+  @logisticRegressionModel, @bktModel, ...
+  @clusteredBktModel, };
+model_names = {'Always 1', 'Naive Bernoulli', ...
+  'Logistic Regression', 'BKT', ...
+  'Clustered BKT'};
 num_models = length(training_fns);
 
+mses = zeros(num_models, num_data_sets);
+error_rates = zeros(num_models, num_data_sets);
+ROC_Xs = {};
+ROC_Ys = {};
+ROC_Ts = {};
+ROC_AUCs = zeros(num_models, num_data_sets);
 
 for model_num = 1:num_models
   for data_set_num = 1:num_data_sets
@@ -47,11 +55,23 @@ for model_num = 1:num_models
     prediction_fn = fitting_fn(answers, concepts);
     validation_answers = validation_answer_sets{data_set_num};
     validation_concepts = validation_concept_sets{data_set_num};
-    error_rate = testModel(prediction_fn, validation_answers, validation_concepts);
-    fprintf('Error rate is %f (sqrt %f) \n\n', error_rate, sqrt(error_rate));
+    [mse, error_rate, X, Y, T, AUC] = testModel(prediction_fn, ...
+      validation_answers, validation_concepts);
+    fprintf('MSE is %f (sqrt %f), error rate %f \n\n', ...
+      mse, sqrt(mse), error_rate);
+    
+    mses(model_num, data_set_num) = mse;
+    error_rates(model_num, data_set_num) = error_rate;
+    ROC_Xs{model_num, data_set_num} = X;
+    ROC_Ys{model_num, data_set_num} = Y;
+    ROC_Ts{model_num, data_set_num} = T;
+    ROC_AUCs(model_num, data_set_num) = AUC;
   end
 end
 
 
-
+%H=bar3(mses);
+%hx=get(H(1),'parent'); % all bars have the same axes parent.
+%Hty=get(hx,'yticklabel');
+%set(Hty,'string',data_set_names);
 
