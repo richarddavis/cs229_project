@@ -1,0 +1,50 @@
+---
+title: "Untitled"
+author: "RLD"
+date: "12/15/2016"
+output: html_document
+---
+
+```{r}
+mean.error <- c(0.240364000000000, 0.124629000000000, 0.183582309483257, 0.457645846250343,
+0.447818000000000, 0.462040000000000, 0.527481174205852, 0.421593683525969,
+0.214412000000000, 0.124629000000000, 0.183582309483257, 0.416432171545274,
+0.200982000000000, 0.113597000000000, 0.183384408426166, 0.420019730402249,
+0.142297000000000, 0.0962400000000000, 0.171311871779164, 0.281484984410124,
+0.142903000000000, 0.0959937933846946, 0.171482614459203, 0.306727107960166)
+
+sd.error <- c(0.0457328110227264, 0.0153899107380534, 0.0110328921096979, 0.0418005084935434,
+0.0190006399679569, 0.00401441845795323, 0.00249306515800500, 0.0289714374103215,
+0.0326058533506987, 0.0153899107380534, 0.0110328921096979, 0.0326717149295739,
+0.0277057423213268, 0.0140180291918744, 0.0110272872654812, 0.0296520012726905,
+0.0195067377895926, 0.00872194492256878, 0.0104996095158476, 0.0228816059925737,
+0.0198396524438033, 0.00781477254327520, 0.0104526991287502, 0.0252584640123886)
+```
+
+
+```{r}
+to.plot.df <- data.frame('model'=c('Always 1', 'Always 1', 'Always 1', 'Always 1', 'Average', 'Average', 'Average', 'Average', 'Naive Bernoulli', 'Naive Bernoulli', 'Naive Bernoulli', 'Naive Bernoulli', 'Logistic Regression', 'Logistic Regression', 'Logistic Regression', 'Logistic Regression', 'BKT', 'BKT', 'BKT', 'BKT', 'Clustered BKT', 'Clustered BKT', 'Clustered BKT', 'Clustered BKT'), 'data'=c('Synthetic BKT', 'Synthetic IRT', 'KDD', 'Assistments', 'Synthetic BKT', 'Synthetic IRT', 'KDD', 'Assistments', 'Synthetic BKT', 'Synthetic IRT', 'KDD', 'Assistments', 'Synthetic BKT', 'Synthetic IRT', 'KDD', 'Assistments', 'Synthetic BKT', 'Synthetic IRT', 'KDD', 'Assistments', 'Synthetic BKT', 'Synthetic IRT', 'KDD', 'Assistments'), 'N'=100, 'ErrorRate'=mean.error, 'sd' = sd.error)
+```
+
+```{r}
+library(ggplot2)
+pd <- position_dodge(0.9) # move them .05 to the left and right
+ggplot(to.plot.df, aes(x=data, y=ErrorRate, group=as.factor(model), color=as.factor(model))) +
+  geom_errorbar(aes(ymin=ErrorRate-sd, ymax=ErrorRate+sd), width=.2, position=pd) +
+  geom_point(position=pd) + 
+  #geom_line(position=pd) + 
+  xlab("X") + ylab("Y") + 
+  ggtitle("TITLE")
+```
+
+```{r}
+library(ggplot2)
+pd <- position_dodge(0.7) # move them .05 to the left and right
+ggplot(to.plot.df, aes(x=data, y=ErrorRate, fill=model)) + geom_col(position=pd, width=0.7) + 
+  geom_errorbar(aes(ymin=ErrorRate-sd, ymax=ErrorRate+sd), width=0.2, position=pd, color="black") + 
+  scale_fill_brewer(palette='Paired') +
+  #scale_fill_manual(values=c("#00ffff", "#0077ff", "#0000ff", "#7700ff", "#ff00ff", "#ff0077")) 
+  #geom_line(position=pd) + 
+  xlab("Dataset") + 
+  ggtitle("Per-Model, Per-Dataset Error Rates (Error bars show Standard Deviation)")
+```
